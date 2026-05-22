@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isaac Nyarko — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A1628;--navy-mid:#132040;
+  --accent:#00D4A0;--accent-dim:rgba(0,212,160,0.12);--accent-dim2:rgba(0,212,160,0.06);
+  --text:#E8EDF5;--text-muted:#8A97AF;--text-dim:#5A6880;
+  --border:rgba(255,255,255,0.07);--card-bg:rgba(255,255,255,0.04);--card-hover:rgba(255,255,255,0.07)
+}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);line-height:1.6;font-size:15px;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3rem;background:rgba(10,22,40,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);letter-spacing:.02em}
+.nav-links{display:flex;gap:1.75rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--text-muted);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:7rem 3rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,212,160,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-inner{display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-dim);border:1px solid rgba(0,212,160,0.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2rem;width:fit-content}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-bottom:1.5rem}
+.hero h1 span{color:var(--accent)}
+.hero-sub{font-size:1.05rem;color:var(--text-muted);max-width:600px;margin-bottom:2.5rem;line-height:1.75;font-weight:300}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:var(--navy);padding:.75rem 1.75rem;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;transition:opacity .2s,transform .15s;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--text);padding:.75rem 1.75rem;border-radius:8px;font-weight:500;font-size:14px;text-decoration:none;border:1px solid var(--border);transition:border-color .2s,color .2s,transform .15s;cursor:pointer}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:2.5rem;border-top:1px solid var(--border);flex-wrap:wrap}
+.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:4px}
+.stat-label{font-size:12px;color:var(--text-dim);letter-spacing:.05em;text-transform:uppercase}
+
+/* PROFILE PHOTO */
+.photo-wrapper{position:relative;flex-shrink:0}
+.photo-frame{width:240px;height:240px;border-radius:50%;border:2px solid rgba(0,212,160,0.3);padding:6px;position:relative}
+.photo-frame::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(0,212,160,0.1);animation:spin 12s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.photo-frame::after{content:'';position:absolute;inset:-24px;border-radius:50%;border:1px dashed rgba(0,212,160,0.06)}
+.photo-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#132040 0%,#0d1e38 100%);border:1px solid rgba(0,212,160,0.15);overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+.photo-inner img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.photo-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;height:100%}
+.photo-initials{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--accent);line-height:1}
+.photo-upload-hint{font-size:11px;color:var(--text-dim);text-align:center;letter-spacing:.04em;text-transform:uppercase;padding:0 1rem;line-height:1.5}
+.photo-upload-btn{position:absolute;bottom:10px;right:10px;width:36px;height:36px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:opacity .2s;z-index:2}
+.photo-upload-btn:hover{opacity:.85}
+#photo-input{display:none}
+
+section{padding:5rem 3rem;max-width:1100px;margin:0 auto}
+.section-eyebrow{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:3rem;letter-spacing:-.01em}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.about-text p{color:var(--text-muted);margin-bottom:1.2rem;font-size:15px;line-height:1.75}
+.about-highlights{display:flex;flex-direction:column;gap:1rem}
+.highlight-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;transition:background .2s}
+.highlight-card:hover{background:var(--card-hover)}
+.highlight-card h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;margin-bottom:4px}
+.highlight-card p{font-size:13px;color:var(--text-muted)}
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:linear-gradient(to bottom,var(--accent),transparent)}
+.timeline-item{position:relative;margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border)}
+.timeline-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.timeline-dot{position:absolute;left:-2.45rem;top:5px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.timeline-meta{display:flex;align-items:center;gap:12px;margin-bottom:.5rem;flex-wrap:wrap}
+.timeline-date{font-size:12px;color:var(--text-dim)}
+.timeline-badge{font-size:11px;background:var(--accent-dim);color:var(--accent);padding:2px 10px;border-radius:100px;font-weight:500}
+.timeline-role{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:600;margin-bottom:4px}
+.timeline-org{font-size:13px;color:var(--text-muted);margin-bottom:.75rem}
+.timeline-bullets{margin-top:.75rem;padding-left:1.2rem;list-style:none}
+.timeline-bullets li{font-size:13.5px;color:var(--text-muted);margin-bottom:6px;position:relative;line-height:1.6}
+.timeline-bullets li::before{content:'→';position:absolute;left:-1.2rem;color:var(--accent);font-size:12px}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem}
+.project-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:background .2s,border-color .2s,transform .2s}
+.project-card:hover{background:var(--card-hover);border-color:rgba(0,212,160,.3);transform:translateY(-3px)}
+.project-icon{width:44px;height:44px;border-radius:10px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:1.25rem}
+.project-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;margin-bottom:8px}
+.project-card p{font-size:13.5px;color:var(--text-muted);line-height:1.65;margin-bottom:1.25rem}
+.project-tech{display:flex;flex-wrap:wrap;gap:6px}
+.tech-tag{font-size:11px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:5px;padding:3px 9px;color:var(--text-dim)}
+.skills-wrapper{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+.skill-group{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+.skill-group-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill-tag{background:var(--accent-dim2);border:1px solid rgba(0,212,160,.15);border-radius:6px;padding:5px 12px;font-size:12.5px;color:var(--text-muted)}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem}
+.cert-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;display:flex;align-items:flex-start;gap:14px;transition:background .2s}
+.cert-card:hover{background:var(--card-hover)}
+.cert-icon{width:38px;height:38px;border-radius:9px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.cert-info h4{font-size:13px;font-weight:500;margin-bottom:3px;line-height:1.35}
+.cert-info p{font-size:12px;color:var(--text-dim)}
+.awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-top:1rem}
+.award-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;display:flex;align-items:flex-start;gap:12px}
+.award-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.award-info h4{font-size:13.5px;font-weight:500;margin-bottom:3px}
+.award-info p{font-size:12px;color:var(--text-dim)}
+.contact-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.contact-text p{font-size:15px;color:var(--text-muted);line-height:1.75;margin-bottom:2rem}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link{display:flex;align-items:center;gap:14px;padding:.9rem 1.1rem;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;transition:border-color .2s,background .2s}
+.contact-link:hover{border-color:rgba(0,212,160,.3);background:var(--card-hover)}
+.contact-link-icon{width:32px;height:32px;border-radius:8px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.contact-form{display:flex;flex-direction:column;gap:1rem}
+.contact-form input,.contact-form textarea{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);width:100%;outline:none;transition:border-color .2s;resize:vertical}
+.contact-form input:focus,.contact-form textarea:focus{border-color:rgba(0,212,160,.5)}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:var(--text-dim)}
+.contact-form textarea{min-height:120px}
+footer{text-align:center;padding:2rem 3rem;border-top:1px solid var(--border);font-size:12px;color:var(--text-dim)}
+.section-line{width:100%;height:1px;background:var(--border);max-width:1100px;margin:0 auto}
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+@media(max-width:700px){
+  nav{padding:1rem 1.25rem}.nav-links{gap:1rem}
+  section{padding:4rem 1.25rem}.hero{padding:6rem 1.25rem 3rem}
+  .hero-inner{grid-template-columns:1fr}.photo-wrapper{display:none}
+  .about-grid,.contact-wrapper{grid-template-columns:1fr}.hero-stats{gap:2rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">IN.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">MIS Officer · Cybersecurity Professional · Accra, Ghana</div>
+      <h1>Isaac<br><span>Nyarko.</span></h1>
+      <p class="hero-sub">Experienced MIS Officer with a strong foundation in cybersecurity and systems management. Adept at vulnerability assessment, securing critical platforms, and optimising operational efficiency through robust technology solutions.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Get In Touch →</a>
+        <a href="#experience" class="btn-outline">View Experience</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">7+</div><div class="stat-label">Years at GWL</div></div>
+        <div><div class="stat-num">3.77</div><div class="stat-label">GPA · Summa Cum Laude</div></div>
+        <div><div class="stat-num">ISC2</div><div class="stat-label">Certified</div></div>
+        <div><div class="stat-num">6+</div><div class="stat-label">Certifications</div></div>
+      </div>
+    </div>
+
+    <!-- PROFILE PHOTO -->
+    <div class="photo-wrapper">
+      <div class="photo-frame">
+        <div class="photo-inner" id="photo-inner">
+          <div class="photo-placeholder" id="photo-placeholder">
+            <div class="photo-initials">IN</div>
+            <div class="photo-upload-hint">Click ✎ to add your photo</div>
+          </div>
+        </div>
+      </div>
+      <button class="photo-upload-btn" onclick="document.getElementById('photo-input').click()" title="Upload photo">✎</button>
+      <input type="file" id="photo-input" accept="image/*">
+    </div>
+  </div>
+</div>
+
+<div class="section-line"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-in">
+    <div class="section-eyebrow">About Me</div>
+    <div class="section-title">Information Systems<br>meets Cyber Defense</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm an MIS Officer at Ghana Water Limited, where I manage and secure enterprise information platforms, conduct audits, and drive operational efficiency through data-driven technology solutions.</p>
+        <p>My technical background spans cybersecurity, ethical hacking, database management, Python programming, and systems engineering — developed through formal education, hands-on professional work, and continuous self-study.</p>
+        <p>I hold a BSc in Information Technology (Summa Cum Laude, GPA 3.77/4.0) from the University of Ghana, where my thesis explored cybersecurity threats and countermeasures in modern IT infrastructures. Beyond IT, I've spent over a decade mentoring students in science and mathematics.</p>
+      </div>
+      <div class="about-highlights">
+        <div class="highlight-card"><h4>🎓 Summa Cum Laude Graduate</h4><p>BSc Information Technology, GPA 3.77/4.0 — University of Ghana, 2023</p></div>
+        <div class="highlight-card"><h4>🔐 Multi-Certified in Cybersecurity</h4><p>ISC2 CC, Ethical Hacking, Security Engineering, and more — 6+ certifications</p></div>
+        <div class="highlight-card"><h4>🌍 Critical Infrastructure Experience</h4><p>Securing and managing MIS platforms for a national utility — Ghana Water Limited</p></div>
+        <div class="highlight-card"><h4>🏆 World Bank Leadership Trainer</h4><p>Assistant Trainer for GWL's Field Level Leadership Training Programme (World Bank Project)</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-line"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="fade-in">
+    <div class="section-eyebrow">Work History</div>
+    <div class="section-title">Professional Experience</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta"><span class="timeline-date">Jan 2025 — Present</span><span class="timeline-badge">Current Role</span></div>
+        <div class="timeline-role">MIS Officer</div>
+        <div class="timeline-org">Ghana Water Limited · Greater Accra, Ghana</div>
+        <ul class="timeline-bullets">
+          <li>Managed and secured MIS platforms through regular audits, proactive troubleshooting, and system optimisation to support robust security controls</li>
+          <li>Developed and maintained databases to improve data accuracy and operational efficiency while integrating security best practices</li>
+          <li>Conducted staff training on MIS tools and supervised electronic billing processes by liaising with cross-functional teams</li>
+          <li>Fostered seamless system integration across departments through stakeholder collaboration</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta"><span class="timeline-date">Sep 2024 — Present</span><span class="timeline-badge">Concurrent</span></div>
+        <div class="timeline-role">Assistant Trainer — Field Level Leadership Training</div>
+        <div class="timeline-org">Ghana Water Limited (World Bank Project) · Accra, Ghana</div>
+        <ul class="timeline-bullets">
+          <li>Mentored and guided field staff in leadership, communication, and problem-solving skills</li>
+          <li>Supported the smooth delivery of a flagship 5-day leadership training programme</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta"><span class="timeline-date">Feb 2018 — Dec 2024</span></div>
+        <div class="timeline-role">Customer Care Assistant</div>
+        <div class="timeline-org">Ghana Water Limited · Greater Accra, Ghana</div>
+        <ul class="timeline-bullets">
+          <li>Read and recorded meters using the E-Reader App, ensuring precise and reliable billing data</li>
+          <li>Contributed to a 90% increase in on-time payments through proactive customer engagement</li>
+          <li>Provided IT troubleshooting support and collaborated with team members to resolve operational challenges</li>
+          <li>Recipient of the Excellence in Customer Engagement Award (2022)</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta"><span class="timeline-date">Aug 2012 — Present</span></div>
+        <div class="timeline-role">Home Tutor — Science & Mathematics</div>
+        <div class="timeline-org">Self-employed · Accra, Ghana</div>
+        <ul class="timeline-bullets">
+          <li>Mentored students in science and mathematics, leading to successful college admissions</li>
+          <li>Created personalised lesson plans tailored to individual learning needs and goals</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-line"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="fade-in">
+    <div class="section-eyebrow">Research & Projects</div>
+    <div class="section-title">Selected Work</div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-icon">🔬</div>
+        <h3>Thesis: Cybersecurity Threats & Countermeasures</h3>
+        <p>Conducted in-depth research on emerging threats in modern IT infrastructures and developed countermeasure strategies using cryptographic algorithms. University of Ghana, 2023.</p>
+        <div class="project-tech"><span class="tech-tag">Cryptography</span><span class="tech-tag">Threat Analysis</span><span class="tech-tag">IT Security</span><span class="tech-tag">Research</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🎟️</div>
+        <h3>Electronic Ticketing Management System</h3>
+        <p>Designed and implemented a scalable, secure platform for managing ticketing processes, integrating user authentication and database management. Final Year Project, University of Ghana, 2023.</p>
+        <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">MySQL</span><span class="tech-tag">Authentication</span><span class="tech-tag">Web Dev</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🛡️</div>
+        <h3>MIS Security & Audit Programme</h3>
+        <p>Developed and executed a systematic audit and security optimisation programme for Ghana Water Limited's MIS platforms, embedding best practices across all data operations.</p>
+        <div class="project-tech"><span class="tech-tag">MIS</span><span class="tech-tag">Security Auditing</span><span class="tech-tag">Database Management</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">📡</div>
+        <h3>World Bank Leadership Training Programme</h3>
+        <p>Co-delivered a 5-day flagship leadership training initiative for field staff at Ghana Water Limited, part of a World Bank-funded capacity building project starting September 2024.</p>
+        <div class="project-tech"><span class="tech-tag">Training Design</span><span class="tech-tag">Leadership</span><span class="tech-tag">Capacity Building</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-line"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="fade-in">
+    <div class="section-eyebrow">Expertise</div>
+    <div class="section-title">Skills & Technologies</div>
+    <div class="skills-wrapper">
+      <div class="skill-group">
+        <div class="skill-group-title">IT & Cybersecurity</div>
+        <div class="skill-tags"><span class="skill-tag">Systems Management</span><span class="skill-tag">Network Security</span><span class="skill-tag">Vulnerability Assessment</span><span class="skill-tag">Ethical Hacking</span><span class="skill-tag">Data Backup & Recovery</span><span class="skill-tag">Database Management</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Programming & Tools</div>
+        <div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">C / C++</span><span class="skill-tag">MySQL</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML / CSS</span><span class="skill-tag">Linux</span><span class="skill-tag">AI / ML</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Professional Skills</div>
+        <div class="skill-tags"><span class="skill-tag">Leadership</span><span class="skill-tag">Problem-Solving</span><span class="skill-tag">Communication</span><span class="skill-tag">Team Collaboration</span><span class="skill-tag">Customer Service</span><span class="skill-tag">Staff Training</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Coursework Highlights</div>
+        <div class="skill-tags"><span class="skill-tag">Network Security</span><span class="skill-tag">Data Network Security</span><span class="skill-tag">Advanced Programming</span><span class="skill-tag">Cryptographic Algorithms</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-line"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="fade-in">
+    <div class="section-eyebrow">Credentials</div>
+    <div class="section-title">Education & Certifications</div>
+    <div style="margin-bottom:2.5rem">
+      <p style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem">Education</p>
+      <div class="certs-grid">
+        <div class="cert-card"><div class="cert-icon">🎓</div><div class="cert-info"><h4>BSc Information Technology</h4><p>Summa Cum Laude · GPA 3.77/4.0 · University of Ghana, 2023</p></div></div>
+        <div class="cert-card"><div class="cert-icon">🏫</div><div class="cert-info"><h4>WASSCE — Sciences</h4><p>Full Scholarship Recipient · St. Thomas Aquinas SHS, 2012</p></div></div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem">Certifications</p>
+      <div class="certs-grid">
+        <div class="cert-card"><div class="cert-icon">🛡️</div><div class="cert-info"><h4>Certified Cybersecurity (CC)</h4><p>ISC2</p></div></div>
+        <div class="cert-card"><div class="cert-icon">🔐</div><div class="cert-info"><h4>Information Security & Ethical Hacking</h4><p>Professional Certificate · University of Ghana</p></div></div>
+        <div class="cert-card"><div class="cert-icon">🌐</div><div class="cert-info"><h4>Cybersecurity Certificate</h4><p>Inveteck Global</p></div></div>
+        <div class="cert-card"><div class="cert-icon">🐍</div><div class="cert-info"><h4>Python Programming</h4><p>Certificate · CodeWithMosh</p></div></div>
+        <div class="cert-card"><div class="cert-icon">⚙️</div><div class="cert-info"><h4>Security Engineering: Advanced Systems & Cryptography</h4><p>Certificate · Udemy</p></div></div>
+        <div class="cert-card"><div class="cert-icon">💻</div><div class="cert-info"><h4>Ethical Hacking</h4><p>Certificate · Udemy</p></div></div>
+      </div>
+    </div>
+    <div style="margin-top:3rem">
+      <p style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem">Honors & Awards</p>
+      <div class="awards-grid">
+        <div class="award-card"><div class="award-icon">🥇</div><div class="award-info"><h4>Summa Cum Laude</h4><p>University of Ghana · 2023</p></div></div>
+        <div class="award-card"><div class="award-icon">🏅</div><div class="award-info"><h4>Excellence in Customer Engagement Award</h4><p>Ghana Water Limited · 2022</p></div></div>
+        <div class="award-card"><div class="award-icon">🎖️</div><div class="award-info"><h4>Full Scholarship Recipient</h4><p>St. Thomas Aquinas Senior High School · 2012</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-line"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in">
+    <div class="section-eyebrow">Get In Touch</div>
+    <div class="section-title">Let's Connect</div>
+    <div class="contact-wrapper">
+      <div class="contact-text">
+        <p>Whether you're a recruiter, academic collaborator, or fellow cybersecurity professional — I'd love to connect. Open to conversations around cybersecurity roles, research collaborations, and opportunities in international contexts.</p>
+        <div class="contact-links">
+          <a href="mailto:nyarko8990@outlook.com" class="contact-link">
+            <div class="contact-link-icon">✉️</div>
+            <div><div style="font-weight:500;font-size:13px">Email</div><div style="font-size:12px;color:var(--text-dim)">nyarko8990@outlook.com</div></div>
+          </a>
+          <a href="https://linkedin.com/in/isaac-nyarko-9b56a3a6" target="_blank" class="contact-link">
+            <div class="contact-link-icon">💼</div>
+            <div><div style="font-weight:500;font-size:13px">LinkedIn</div><div style="font-size:12px;color:var(--text-dim)">linkedin.com/in/isaac-nyarko-9b56a3a6</div></div>
+          </a>
+          <a href="tel:+233543901343" class="contact-link">
+            <div class="contact-link-icon">📞</div>
+            <div><div style="font-weight:500;font-size:13px">Phone</div><div style="font-size:12px;color:var(--text-dim)">+233 543 901 343</div></div>
+          </a>
+          <div class="contact-link" style="cursor:default">
+            <div class="contact-link-icon">📍</div>
+            <div><div style="font-weight:500;font-size:13px">Location</div><div style="font-size:12px;color:var(--text-dim)">Greater Accra, Ghana</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-form">
+          <input type="text" placeholder="Your name">
+          <input type="email" placeholder="Your email">
+          <textarea placeholder="Your message..."></textarea>
+          <button class="btn-primary" style="align-self:flex-start" onclick="alert('Message sent!')">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Isaac Nyarko · MIS Officer & Cybersecurity Professional · Accra, Ghana</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if(el) el.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+document.getElementById('photo-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const inner = document.getElementById('photo-inner');
+    inner.innerHTML = '<img src="' + ev.target.result + '" alt="Isaac Nyarko">';
+  };
+  reader.readAsDataURL(file);
+});
+</script>
+</body>
+</html>
